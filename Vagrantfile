@@ -7,6 +7,7 @@ VAGRANTFILE_LOCAL = 'Vagrantfile.local'
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/wheezy64"
 
+  # config.vm.hostname = "vm_name"
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   # config.vm.network "private_network", ip: "192.168.33.10"
   config.vm.network "private_network", type: "dhcp"
@@ -21,8 +22,14 @@ Vagrant.configure("2") do |config|
 
   # Provider specific configuration options
   config.vm.provider "virtualbox" do |vb|
-      # v.gui = true
-      # v.name = "my_vm"
-      vb.customize ["modifyvm", :id, "--cpus", "2", "--ioapic", "on", "--memory", "1024"]
+      # vb.gui = true
+      # vb.name = "my_vm"
+      vb.customize [
+        "modifyvm", :id,
+        "--cpus", "2",
+        "--ioapic", "on",
+        "--memory", "1024",
+        "--cpuexecutioncap", "50",
+      ]
   end
 end
